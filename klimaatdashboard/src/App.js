@@ -74,7 +74,9 @@ const App = () => {
         >
           <Row justify="center" align="middle">
             <Col xs={24} md={24}>
-              <h1 style={{ textAlign: "center", margin: 0 }}>Dashboard</h1>
+              <h1 style={{ textAlign: "center", margin: 0 }}>
+                Klimaat Dashboard
+              </h1>
             </Col>
           </Row>
         </Header>
