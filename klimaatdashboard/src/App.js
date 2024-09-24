@@ -41,7 +41,7 @@ const items = [
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   return (
@@ -66,10 +66,18 @@ const App = () => {
       <Layout>
         <Header
           style={{
-            padding: 0,
             background: colorBgContainer,
+            padding: 2,
+            borderRadius: borderRadiusLG,
           }}
-        />
+        >
+          <Row justify="center" align="middle">
+            <Col xs={24} md={24}>
+              <h1 style={{ textAlign: "center", margin: 0 }}>Dashboard</h1>
+            </Col>
+          </Row>
+        </Header>
+
         <Content>
           {/* Hoofdinhoud van het dashboard */}
           <Content style={{ padding: "25px 50px" }}>
