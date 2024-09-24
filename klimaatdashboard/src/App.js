@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Layout, Menu, Row, Col, Card, Rate, theme } from "antd"; // Importeer Ant Design componenten
 import TemperatureChart from "./TemperatureChart";
 import TemperatuurKaart from "./TemperatuurKaart";
+import BuienradarMap from "./BuienradarMap";
 import "./App.css";
 
 import {
@@ -105,17 +106,14 @@ const App = () => {
                     }
                     bordered={false}
                   >
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                      <iframe
-                        title="Buienradar in Akkrum"
-                        src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=53.05024&lng=5.83087&overname=2&zoom=11&naam=Akkrum&size=2b&voor=1"
-                        scrolling="no"
-                        width="330"
-                        height="330"
-                        frameBorder="no"
-                        style={{ border: 0 }} // Optional styling to remove border if necessary
-                      ></iframe>
-                    </div>
+                    <BuienradarMap
+                      lat={53.05024}
+                      lng={5.83087}
+                      zoom={11}
+                      name="Akkrum"
+                      width={330}
+                      height={330}
+                    />
                   </Card>
                 </Col>
 
