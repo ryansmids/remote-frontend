@@ -1,76 +1,153 @@
-import React, { useState, useEffect } from "react";
-import { Card, Typography } from "antd";
+import React, { useState } from "react";
+import { Layout, Menu, Row, Col, Card, Rate, theme } from "antd"; // Importeer Ant Design componenten
+import TemperatureChart from "./TemperatureChart";
+import TemperatuurKaart from "./TemperatuurKaart";
+import "./App.css";
 
-const { Title, Text } = Typography;
+import {
+  DesktopOutlined,
+  FileOutlined,
+  PieChartOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
-function App() {
-  const [temperatureData, setTemperatureData] = useState(null);
-  const [currentTime, setCurrentTime] = useState("");
+const { Header, Content, Footer, Sider } = Layout;
 
-  // Functie om de nieuwste temperatuur op te halen
-  const fetchLatestTemperature = async () => {
-    try {
-      const response = await fetch(
-        "https://localhost:44373/api/BuitenTemperatuur"
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      const latestData = data[data.length - 1];
-      setTemperatureData(latestData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+function getItem(label, key, icon, children) {
+  return {
+    key,
+    icon,
+    children,
+    label,
   };
+}
 
-  // Functie om de tijd te updaten
-  const updateTime = () => {
-    const now = new Date();
-    const timeString = now.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    setCurrentTime(timeString);
-  };
+const items = [
+  getItem("Option 1", "1", <PieChartOutlined />),
+  getItem("Option 2", "2", <DesktopOutlined />),
+  getItem("User", "sub1", <UserOutlined />, [
+    getItem("Tom", "3"),
+    getItem("Bill", "4"),
+    getItem("Alex", "5"),
+  ]),
+  getItem("Team", "sub2", <TeamOutlined />, [
+    getItem("Team 1", "6"),
+    getItem("Team 2", "8"),
+  ]),
+  getItem("Files", "9", <FileOutlined />),
+];
 
-  useEffect(() => {
-    // Direct de temperatuur ophalen bij de eerste render
-    fetchLatestTemperature();
-
-    // Temperature fetch every 30 seconds
-    const temperatureIntervalId = setInterval(fetchLatestTemperature, 30000);
-
-    // Time update every second
-    const timeIntervalId = setInterval(updateTime, 1000);
-
-    // Clean up both intervals on component unmount
-    return () => {
-      clearInterval(temperatureIntervalId);
-      clearInterval(timeIntervalId);
-    };
-  }, []);
+const App = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   return (
-    <div
+    <Layout
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
+        minHeight: "100vh",
       }}
     >
-      {temperatureData && (
-        <Card style={{ width: 300, borderRadius: "16px", textAlign: "center" }}>
-          <Title level={3}>{temperatureData.locatie}</Title>
-          <Text style={{ fontSize: "24px" }}>{currentTime}</Text>
-          <Title style={{ fontSize: "48px", margin: "16px 0" }}>
-            {temperatureData.temperatuur}°
-          </Title>
-        </Card>
-      )}
-    </div>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
+        <div className="demo-logo-vertical" />
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["1"]}
+          mode="inline"
+          items={items}
+        />
+      </Sider>
+      <Layout>
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        />
+        <Content>
+          {/* Hoofdinhoud van het dashboard */}
+          <Content style={{ padding: "25px 50px" }}>
+            <div className="site-layout-content">
+              <Row gutter={[16, 16]}>
+                {/* Sectie 1: Temperatuur Kaart */}
+                <Col xs={24} md={6}>
+                  <Card title="Huidige Temperatuur" bordered={false}>
+                    <TemperatuurKaart />
+                  </Card>
+                </Col>
+
+                {/* Sectie 2: Temperatuur Grafiek */}
+                <Col xs={24} md={12}>
+                  <Card title="Temperatuur Overzicht" bordered={false}>
+                    <TemperatureChart />
+                  </Card>
+                </Col>
+
+                <Col xs={24} md={6}>
+                  {" "}
+                  <Card
+                    title={
+                      <div style={{ textAlign: "center" }}>Buienradar</div>
+                    }
+                    bordered={false}
+                  >
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <iframe
+                        title="Buienradar in Akkrum"
+                        src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=53.05024&lng=5.83087&overname=2&zoom=11&naam=Akkrum&size=2b&voor=1"
+                        scrolling="no"
+                        width="330"
+                        height="330"
+                        frameBorder="no"
+                        style={{ border: 0 }} // Optional styling to remove border if necessary
+                      ></iframe>
+                    </div>
+                  </Card>
+                </Col>
+
+                <Col xs={24} md={6}>
+                  <Card title="Tevredenheid" bordered={false}>
+                    {/* Voeg je luchtvochtigheid component hier toe */}
+
+                    <Rate allowHalf />
+                  </Card>
+                </Col>
+              </Row>
+
+              {/* Voeg meer secties toe indien nodig */}
+              <Row gutter={[16, 16]} style={{ marginTop: "20px" }}>
+                <Col xs={24} md={6}>
+                  <Card title="Luchtvochtigheid" bordered={false}>
+                    {/* Voeg je luchtvochtigheid component hier toe */}
+                    <p>Luchtvochtigheid: 70%</p>
+                  </Card>
+                </Col>
+                <Col xs={24} md={12}>
+                  <Card title="Wind Snelheid" bordered={false}>
+                    {/* Voeg je wind component hier toe */}
+                    <p>Wind: 5 m/s</p>
+                  </Card>
+                </Col>
+              </Row>
+            </div>
+          </Content>
+        </Content>
+        <Footer
+          style={{
+            textAlign: "center",
+          }}
+        >
+          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        </Footer>
+      </Layout>
+    </Layout>
   );
-}
+};
 
 export default App;
