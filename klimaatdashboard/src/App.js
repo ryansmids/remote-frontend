@@ -12,6 +12,7 @@ import {
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import BinnenTemperatuurKaart from "./BinnenTemperatuurKaart";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -90,6 +91,13 @@ const App = () => {
                 <Col xs={24} md={6}>
                   <Card title="Huidige Temperatuur" bordered={false}>
                     <TemperatuurKaart />
+                  </Card>
+                </Col>
+
+                {/* Binnen Temperatuur. */}
+                <Col xs={24} md={6}>
+                  <Card title="Huidige Temperatuur" bordered={false}>
+                    <BinnenTemperatuurKaart />
                   </Card>
                 </Col>
 
