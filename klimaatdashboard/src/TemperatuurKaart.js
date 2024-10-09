@@ -12,7 +12,7 @@ const TemperatuurKaart = () => {
   const fetchLatestTemperature = async () => {
     try {
       const response = await fetch(
-        "https://localhost:44373/api/BuitenTemperatuur"
+        "http://192.168.0.76:5000/api/BuitenTemperatuur"
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

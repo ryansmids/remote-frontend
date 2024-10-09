@@ -27,7 +27,7 @@ const TemperatureChart = () => {
   const fetchTemperatureData = async () => {
     try {
       const response = await fetch(
-        "https://localhost:44373/api/BuitenTemperatuur"
+        "http://192.168.0.76:5000/api/BuitenTemperatuur"
       );
       const data = await response.json();
 

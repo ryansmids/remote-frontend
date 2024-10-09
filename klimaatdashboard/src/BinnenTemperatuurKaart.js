@@ -10,14 +10,19 @@ const BinnenTemperatuurKaart = () => {
     const fetchLatestTemperature = async () => {
         try {
             const response = await fetch(
-                "https://localhost:44373/api/BinnenTemperatuur"
+                "http://192.168.0.76:5000/api/BinnenTemperatuur"
             );
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            const latestData = data[data.length - 1]; // Get the latest entry
-            setTemperatureData(latestData);
+
+            if (data && data.length > 0) { // Ensure the data is not empty
+                const latestData = data[data.length - 1]; // Get the latest entry
+                setTemperatureData(latestData);
+            } else {
+                console.warn("No data returned from the API.");
+            }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -45,14 +50,18 @@ const BinnenTemperatuurKaart = () => {
 
     return (
         <div>
-            {temperatureData && (
+            {temperatureData ? (
                 <Card style={{ borderRadius: "16px", textAlign: "center" }}>
                     <Title level={3}>Kantoor</Title>
                     <Text style={{ fontSize: "24px" }}>{currentTime}</Text>
                     <Title style={{ fontSize: "48px", margin: "16px 0" }}>
-                        {temperatureData.temperatuur.toFixed(1)}° {/* Show 1 decimal */}
+                        {temperatureData.binnentemperatuur
+                            ? temperatureData.binnentemperatuur.toFixed(1) + "°"
+                            : "N/A"}
                     </Title>
                 </Card>
+            ) : (
+                <Text>Loading temperature data...</Text>
             )}
         </div>
     );
