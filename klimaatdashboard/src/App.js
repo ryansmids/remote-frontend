@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Layout, Menu, Row, Col, Card, Rate, theme } from "antd"; // Importeer Ant Design componenten
 import TemperatureChart from "./TemperatureChart";
+import TemperatureChartBinnen from "./TemperatureChartBinnen";
 import TemperatuurKaart from "./TemperatuurKaart";
-import BuienradarMap from "./BuienradarMap";
+
 import "./App.css";
 
 import {
@@ -87,6 +88,21 @@ const App = () => {
           <Content style={{ padding: "25px 50px" }}>
             <div className="site-layout-content">
               <Row gutter={[16, 16]}>
+
+
+                {/* Sectie 2: Temperatuur Grafiek */}
+                <Col xs={24} md={12}>
+                  <Card title="Temperatuur Overzicht" bordered={false}>
+                    <TemperatureChart />
+                  </Card>
+                </Col>
+
+                {/* Sectie 2: Temperatuur Grafiek */}
+                <Col xs={24} md={12}>
+                  <Card title="Temperatuur Overzicht Kantoor" bordered={false}>
+                    <TemperatureChartBinnen />
+                  </Card>
+                </Col>
                 {/* Sectie 1: Temperatuur Kaart */}
                 <Col xs={24} md={6}>
                   <Card title="Huidige Temperatuur" bordered={false}>
@@ -101,31 +117,7 @@ const App = () => {
                   </Card>
                 </Col>
 
-                {/* Sectie 2: Temperatuur Grafiek */}
-                <Col xs={24} md={12}>
-                  <Card title="Temperatuur Overzicht" bordered={false}>
-                    <TemperatureChart />
-                  </Card>
-                </Col>
 
-                <Col xs={24} md={6}>
-                  {" "}
-                  <Card
-                    title={
-                      <div style={{ textAlign: "center" }}>Buienradar</div>
-                    }
-                    bordered={false}
-                  >
-                    <BuienradarMap
-                      lat={53.05024}
-                      lng={5.83087}
-                      zoom={11}
-                      name="Akkrum"
-                      width={330}
-                      height={330}
-                    />
-                  </Card>
-                </Col>
 
                 <Col xs={24} md={6}>
                   <Card title="Tevredenheid" bordered={false}>
@@ -137,20 +129,7 @@ const App = () => {
               </Row>
 
               {/* Voeg meer secties toe indien nodig */}
-              <Row gutter={[16, 16]} style={{ marginTop: "20px" }}>
-                <Col xs={24} md={6}>
-                  <Card title="Luchtvochtigheid" bordered={false}>
-                    {/* Voeg je luchtvochtigheid component hier toe */}
-                    <p>Luchtvochtigheid: 70%</p>
-                  </Card>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Card title="Wind Snelheid" bordered={false}>
-                    {/* Voeg je wind component hier toe */}
-                    <p>Wind: 5 m/s</p>
-                  </Card>
-                </Col>
-              </Row>
+
             </div>
           </Content>
         </Content>
